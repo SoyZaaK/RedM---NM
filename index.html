@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creador de Normativas - RedM Roleplay</title>
+    
+    <!-- SEO y Meta Tags -->
+    <meta name="description" content="Creador interactivo de normativas, leyes y decretos antiguos (1885) para servidores de RedM Roleplay. Exporta en PDF y PNG.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Rye&family=Pinyon+Script&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Hoja de Estilos -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- html2canvas para exportar a imagen -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- BARRA LATERAL: EDITOR (IZQUIERDA) -->
+        <aside class="control-panel">
+            <header class="panel-header">
+                <div class="logo-area">
+                    <span class="badge-icon">📜</span>
+                    <h1>Normativas Maker</h1>
+                </div>
+                <p class="subtitle">Editor de Leyes y Decretos • 1885</p>
+            </header>
+
+            <form id="normativa-form" class="form-container" onsubmit="event.preventDefault();">
+                <!-- 1. TIPO DE DOCUMENTO Y ESTILO -->
+                <section class="form-section">
+                    <h2><span class="section-num">1.</span> Plantilla y Estética</h2>
+                    <div class="form-group">
+                        <label for="input-doc-style">Estilo Visual</label>
+                        <select id="input-doc-style" name="docStyle">
+                            <option value="decreto" selected>Decreto Oficial (Sheriff/Leyes)</option>
+                            <option value="ordenanza">Ordenanza Municipal (Ayuntamiento/Oficinas)</option>
+                            <option value="conducta">Reglamento Local (Saloons/Negocios)</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- 2. CABECERA DEL DOCUMENTO -->
+                <section class="form-section">
+                    <h2><span class="section-num">2.</span> Cabecera e Identificación</h2>
+                    <div class="form-group">
+                        <label for="input-title">Título Principal</label>
+                        <input type="text" id="input-title" name="title" value="DECRETO DE LEY Y ORDENANZA">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-subtitle">Subtítulo / Asunto</label>
+                        <input type="text" id="input-subtitle" name="subtitle" value="Regulación de Armas y Conducta Pública en Valentine">
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="input-issuer">Entidad Emisora</label>
+                            <input type="text" id="input-issuer" name="issuer" value="Oficina del Sheriff de Valentine">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-doc-num">N.º Registro / Decreto</label>
+                            <input type="text" id="input-doc-num" name="docNum" value="DEC-1885-001">
+                        </div>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="input-date">Fecha del Decreto</label>
+                            <input type="text" id="input-date" name="date" value="15 de Octubre de 1885">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-location">Jurisdicción / Lugar</label>
+                            <input type="text" id="input-location" name="location" value="Condado de New Hanover">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. PREÁMBULO / INTRODUCCIÓN -->
+                <section class="form-section">
+                    <h2><span class="section-num">3.</span> Introducción / Preámbulo</h2>
+                    <div class="form-group">
+                        <label for="input-preamble">Texto de Introducción</label>
+                        <textarea id="input-preamble" name="preamble" rows="4">Habiendo observado incidentes recurrentes que amenazan la paz de los honorables ciudadanos, por la presente autoridad que ostento, ordeno y mando que se sigan y hagan cumplir los siguientes artículos bajo pena de arresto inmediato.</textarea>
+                    </div>
+                </section>
+
+                <!-- 4. ARTÍCULOS O REGLAS DINÁMICAS -->
+                <section class="form-section">
+                    <h2><span class="section-num">4.</span> Artículos / Reglas</h2>
+                    <div id="articles-container" class="dynamic-container">
+                        <!-- Se rellenará dinámicamente con JS -->
+                    </div>
+                    <button type="button" id="btn-add-article" class="btn-secondary btn-sm">+ Añadir Artículo</button>
+                </section>
+
+                <!-- 5. CONCLUSIÓN Y OBSERVACIONES -->
+                <section class="form-section">
+                    <h2><span class="section-num">5.</span> Cláusula de Cierre</h2>
+                    <div class="form-group">
+                        <label for="input-closing">Consecuencias o Multas</label>
+                        <textarea id="input-closing" name="closing" rows="3">Cualquier infractor será recluido en las celdas del condado por un período no menor a 24 horas y sancionado con una fianza de diez dólares de plata.</textarea>
+                    </div>
+                </section>
+
+                <!-- 6. FIRMANTES Y SELLOS -->
+                <section class="form-section">
+                    <h2><span class="section-num">6.</span> Autores y Validación</h2>
+                    <div class="signatures-builder" id="signatures-builder-container">
+                        <!-- JS generará inputs para firmas aquí -->
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 12px;">
+                        <label for="select-seal">Sello Oficial Impreso</label>
+                        <select id="select-seal" name="officialSeal">
+                            <option value="none">Ninguno</option>
+                            <option value="sheriff" selected>Estrella de Sheriff (Tinta Negra)</option>
+                            <option value="state">Sello de Estado (Tinta Azul)</option>
+                            <option value="wax">Sello de Lacre (Cera Roja)</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- 7. DISCORD WEBHOOK -->
+                <section class="form-section">
+                    <h2><span class="section-num">7.</span> Integración Discord</h2>
+                    <div class="form-group">
+                        <label for="input-webhook-url">Webhook de Discord</label>
+                        <div class="webhook-input-wrapper">
+                            <input type="password" id="input-webhook-url" placeholder="https://discord.com/api/webhooks/...">
+                            <button type="button" id="btn-toggle-webhook" class="btn-icon-sm">👁️</button>
+                        </div>
+                    </div>
+                    <button type="button" id="btn-test-webhook" class="btn-secondary btn-xs">Probar Webhook</button>
+                </section>
+            </form>
+
+            <!-- ACCIONES DEL FORMULARIO -->
+            <div class="panel-actions">
+                <button type="button" id="btn-print-pdf" class="btn-primary">Descargar PDF / Imprimir</button>
+                <button type="button" id="btn-download-png" class="btn-secondary">Descargar Imagen (PNG)</button>
+                <button type="button" id="btn-copy-markdown" class="btn-secondary btn-icon-text">Copiar para Discord (Markdown)</button>
+                <button type="button" id="btn-reset" class="btn-danger btn-xs">Limpiar Todo</button>
+            </div>
+            
+            <footer class="panel-footer">
+                <p>Desarrollado por ZaaK • Territorios de RedM</p>
+            </footer>
+        </aside>
+
+        <!-- PANTALLA DE VISTA PREVIA (DERECHA) -->
+        <main class="preview-panel">
+            <div class="preview-header-controls">
+                <div class="zoom-controls">
+                    <button id="btn-zoom-out" title="Alejar">-</button>
+                    <span id="zoom-level">Auto</span>
+                    <button id="btn-zoom-in" title="Acercar">+</button>
+                    <button id="btn-zoom-auto" title="Ajuste automático">Auto</button>
+                </div>
+            </div>
+
+            <div class="report-wrapper">
+                <!-- EL PERGAMINO REALISTA (FORMATO A4 VIRTUAL) -->
+                <article class="report-paper style-decreto" id="paper-document">
+                    <!-- Sello de fondo decorativo -->
+                    <div class="watermark-badge"></div>
+                    
+                    <div class="paper-border-outer">
+                        <div class="paper-border-inner">
+                            
+                            <!-- Cabecera -->
+                            <header class="doc-header">
+                                <div class="header-seal-left" id="header-seal-placeholder">
+                                    <img src="assets/sheriff_seal.png" alt="Sello Oficial" class="seal-img-fluid" id="seal-header-img" style="display: none;">
+                                </div>
+                                <div class="header-titles">
+                                    <h3 id="prev-issuer" class="doc-issuer">OFICINA DEL SHERIFF DE VALENTINE</h3>
+                                    <h1 id="prev-title" class="doc-title">DECRETO DE LEY Y ORDENANZA</h1>
+                                    <div class="header-divider-fancy"></div>
+                                    <h4 id="prev-subtitle" class="doc-subtitle">Regulación de Armas y Conducta Pública en Valentine</h4>
+                                </div>
+                            </header>
+
+                            <!-- Metadatos de Jurisdicción y Fecha -->
+                            <div class="doc-meta-bar">
+                                <div class="meta-item">
+                                    <span class="meta-label">Jurisdicción:</span>
+                                    <span id="prev-location" class="meta-val">Condado de New Hanover</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Fecha:</span>
+                                    <span id="prev-date" class="meta-val">15 de Octubre de 1885</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Expediente:</span>
+                                    <span id="prev-doc-num" class="meta-val">DEC-1885-001</span>
+                                </div>
+                            </div>
+
+                            <!-- Contenido del decreto -->
+                            <div class="doc-content">
+                                <!-- Preámbulo -->
+                                <p id="prev-preamble" class="doc-preamble">
+                                    Habiendo observado incidentes recurrentes que amenazan la paz de los honorables ciudadanos, por la presente autoridad que ostento, ordeno y mando que se sigan y hagan cumplir los siguientes artículos bajo pena de arresto inmediato.
+                                </p>
+                                
+                                <div class="content-divider"></div>
+
+                                <!-- Artículos / Lista de Leyes -->
+                                <ol id="prev-articles" class="doc-articles-list">
+                                    <!-- JS rellenará la lista de leyes aquí -->
+                                </ol>
+
+                                <div class="content-divider"></div>
+
+                                <!-- Cierre / Multas -->
+                                <div class="doc-closing-section">
+                                    <h4 class="closing-title">Penalizaciones y Vigencia:</h4>
+                                    <p id="prev-closing" class="doc-closing-text">
+                                        Cualquier infractor será recluido en las celdas del condado por un período no menor a 24 horas y sancionado con una fianza de diez dólares de plata.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Firmas y Sello de Lacre -->
+                            <footer class="doc-footer">
+                                <div class="signatures-container" id="prev-signatures-layout">
+                                    <!-- Firmas dinámicas irán aquí -->
+                                </div>
+                                
+                                <!-- Sello de Lacre Rojo en la esquina -->
+                                <div class="wax-seal-container" id="wax-seal-overlay" style="display: none;">
+                                    <img src="assets/wax_seal.png" alt="Sello Lacre" class="wax-seal-img">
+                                </div>
+                            </footer>
+
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para firma digital táctil/ratón -->
+    <div id="signature-modal" class="modal-container" style="display: none;">
+        <div class="modal-content">
+            <h3 class="modal-title">Dibujar Firma de Ley</h3>
+            <p class="modal-subtitle">Dibuja la firma digital para el decreto utilizando tu ratón o pantalla táctil.</p>
+            
+            <div class="canvas-wrapper">
+                <canvas id="signature-pad-canvas"></canvas>
+            </div>
+            
+            <div class="modal-actions">
+                <button type="button" id="btn-save-sig-modal" class="btn-primary">Guardar Firma</button>
+                <button type="button" id="btn-clear-sig-modal" class="btn-secondary">Limpiar Canvas</button>
+                <button type="button" id="btn-close-sig-modal" class="btn-danger">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de lógica principal -->
+    <script src="app.js"></script>
+</body>
+</html>

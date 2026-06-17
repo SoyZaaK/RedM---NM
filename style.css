@@ -1,0 +1,941 @@
+/* ==========================================
+   ESTILOS GENERALES Y VARIABLES (Tema Western RDR)
+   ========================================== */
+:root {
+    --bg-dark: #090705;
+    --bg-card: #15100c;
+    --bg-input: #211913;
+    --border: #35271d;
+    --border-light: rgba(201, 154, 78, 0.15);
+    
+    --primary: #8a201a; /* Rojo Viejo RDR */
+    --primary-hover: #a62a22;
+    --accent: #c99a4e; /* Oro / Latón Viejo */
+    --accent-hover: #dec483;
+    --danger: #b33939;
+    
+    --text-light: #f3eee3;
+    --text-muted: #9c8e80;
+    
+    --font-serif: 'Rye', Georgia, serif;
+    --font-handwritten: 'Pinyon Script', cursive;
+    --font-typewriter: 'Special Elite', monospace;
+    --font-sans: 'Outfit', sans-serif;
+    
+    --preview-scale: 1;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ========================================== */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ==========================================
+   BARRA LATERAL (IZQUIERDA)
+   ========================================== */
+.control-panel {
+    width: 440px;
+    min-width: 440px;
+    background-color: var(--bg-card);
+    border-right: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    z-index: 100;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.panel-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+    text-align: center;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 2px;
+}
+
+.badge-icon {
+    font-size: 26px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.logo-area h1 {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: 1px;
+}
+
+.panel-header .subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+/* Formulario con scroll */
+.form-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Scrollbar personalizado */
+.form-container::-webkit-scrollbar {
+    width: 6px;
+}
+.form-container::-webkit-scrollbar-track {
+    background: var(--bg-card);
+}
+.form-container::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+.form-container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* Secciones de formulario */
+.form-section {
+    background-color: rgba(255, 255, 255, 0.01);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.3s ease;
+}
+
+.form-section:hover {
+    border-color: var(--border-light);
+}
+
+.form-section h2 {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 6px;
+}
+
+.section-num {
+    color: var(--text-muted);
+    margin-right: 4px;
+}
+
+/* Form Inputs */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.form-group-row {
+    display: flex;
+    gap: 12px;
+}
+
+.form-group label {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-light);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(201, 154, 78, 0.15);
+}
+
+/* Discord Webhook Wrapper */
+.webhook-input-wrapper {
+    display: flex;
+    gap: 6px;
+}
+
+.webhook-input-wrapper input {
+    flex-grow: 1;
+}
+
+.btn-icon-sm {
+    width: 38px;
+    height: 38px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-icon-sm:hover {
+    border-color: var(--accent);
+    background-color: var(--border);
+}
+
+/* Filas dinámicas de artículos */
+.dynamic-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.dynamic-row textarea {
+    flex-grow: 1;
+    min-height: 50px;
+    padding: 8px 10px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-light);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    resize: none;
+}
+
+.btn-remove-row {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(179, 57, 57, 0.1);
+    border: 1px solid rgba(179, 57, 57, 0.3);
+    color: var(--danger);
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 4px;
+}
+
+.btn-remove-row:hover {
+    background-color: var(--danger);
+    color: #fff;
+}
+
+/* Firmantes del documento */
+.signature-setup-box {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.signature-setup-header {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--accent);
+    display: flex;
+    justify-content: space-between;
+}
+
+.signature-setup-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-draw-signature {
+    padding: 8px;
+    background-color: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-light);
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.btn-draw-signature:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-draw-signature.signed {
+    background-color: rgba(201, 154, 78, 0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Botones y acciones */
+.btn-primary, .btn-secondary, .btn-danger {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(138, 32, 26, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+
+.btn-secondary:hover {
+    background-color: var(--accent);
+    color: #000;
+}
+
+.btn-danger {
+    background-color: rgba(179, 57, 57, 0.15);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+}
+
+.btn-danger:hover {
+    background-color: var(--danger);
+    color: #fff;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 11px;
+}
+
+.btn-xs {
+    padding: 6px 12px;
+    font-size: 10px;
+}
+
+.panel-actions {
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.panel-footer {
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+/* ==========================================
+   PANEL DE VISTA PREVIA (DERECHA)
+   ========================================== */
+.preview-panel {
+    flex-grow: 1;
+    background-color: #0d0a08;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(20,15,10,0.8) 0%, rgba(0,0,0,0.95) 100%),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Controles de Zoom */
+.preview-header-controls {
+    height: 50px;
+    background-color: rgba(13, 10, 8, 0.85);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #1d1611;
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.zoom-controls button {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--border);
+    color: var(--text-light);
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.zoom-controls button:hover {
+    background-color: var(--accent);
+    color: #000;
+}
+
+.zoom-controls span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Report Wrapper y Papel */
+.report-wrapper {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.report-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.report-wrapper::-webkit-scrollbar-track {
+    background: #0d0a08;
+}
+.report-wrapper::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+.report-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* EL PAPEL PERGAMINO */
+.report-paper {
+    width: 800px;
+    min-width: 800px;
+    height: 1130px; /* Proporción A4 */
+    background-color: #eeddc5;
+    background-image: url('assets/paper_texture.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.8);
+    position: relative;
+    padding: 30px;
+    color: #1a1510;
+    transform: scale(var(--preview-scale));
+    transform-origin: top center;
+    transition: transform 0.1s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.paper-border-outer {
+    border: 1px solid rgba(56, 44, 34, 0.4);
+    height: 100%;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.paper-border-inner {
+    border: 2px solid rgba(56, 44, 34, 0.85);
+    height: 100%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* ==========================================
+   ESTILOS DE PLANTILLAS
+   ========================================== */
+
+/* 1. DECRETO OFICIAL */
+.report-paper.style-decreto .paper-border-inner {
+    border: 4px double #3e2815;
+}
+
+.report-paper.style-decreto .doc-title {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    text-transform: uppercase;
+    color: #8c201a;
+    font-weight: normal;
+}
+
+.report-paper.style-decreto .doc-issuer {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #3e2815;
+}
+
+.report-paper.style-decreto .doc-content {
+    font-family: var(--font-typewriter);
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+/* 2. ORDENANZA MUNICIPAL */
+.report-paper.style-ordenanza .paper-border-inner {
+    border: 2px solid #2b231c;
+}
+
+.report-paper.style-ordenanza .doc-title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+    color: #2b231c;
+}
+
+.report-paper.style-ordenanza .doc-issuer {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: #5c4e40;
+}
+
+.report-paper.style-ordenanza .doc-content {
+    font-family: var(--font-typewriter);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+/* 3. REGLAMENTO LOCAL (SALOON) */
+.report-paper.style-conducta .paper-border-inner {
+    border: 1px solid #3c2a1a;
+    box-shadow: inset 0 0 0 4px rgba(60, 42, 26, 0.2);
+}
+
+.report-paper.style-conducta .doc-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    color: #5c3515;
+    font-weight: normal;
+}
+
+.report-paper.style-conducta .doc-issuer {
+    font-family: var(--font-handwritten);
+    font-size: 28px;
+    color: #1a1510;
+}
+
+.report-paper.style-conducta .doc-content {
+    font-family: var(--font-typewriter);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+/* ==========================================
+   COMPONENTES DEL DOCUMENTO
+   ========================================== */
+
+/* Cabecera */
+.doc-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.header-seal-left {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.seal-img-fluid {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.header-titles {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.header-divider-fancy {
+    width: 80%;
+    height: 6px;
+    background: radial-gradient(circle, #3e2815 20%, transparent 20%), linear-gradient(90deg, transparent 45%, #3e2815 45%, #3e2815 55%, transparent 55%);
+    background-size: 10px 6px, 100% 2px;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 6px auto;
+}
+
+.doc-subtitle {
+    font-size: 12px;
+    font-style: italic;
+    color: #4b3e34;
+    font-weight: normal;
+}
+
+/* Barra de metadatos */
+.doc-meta-bar {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(56, 44, 34, 0.3);
+    border-bottom: 1px solid rgba(56, 44, 34, 0.3);
+    padding: 8px 10px;
+    margin-bottom: 24px;
+    font-size: 11px;
+}
+
+.meta-label {
+    font-weight: bold;
+    color: #5c4e40;
+    margin-right: 4px;
+    text-transform: uppercase;
+}
+
+.meta-val {
+    color: #1a1510;
+}
+
+/* Contenido Principal */
+.doc-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.doc-preamble {
+    text-align: justify;
+    text-indent: 20px;
+    font-style: italic;
+}
+
+.content-divider {
+    border-bottom: 1px dashed rgba(56, 44, 34, 0.2);
+    margin: 4px 0;
+}
+
+/* Lista de Artículos */
+.doc-articles-list {
+    padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.doc-articles-list li {
+    text-align: justify;
+    padding-left: 4px;
+}
+
+.doc-articles-list li::marker {
+    font-weight: bold;
+    color: #8c201a;
+}
+
+/* Cierre */
+.doc-closing-section {
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.closing-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5c4e40;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.doc-closing-text {
+    text-align: justify;
+}
+
+/* Pie de página y firmas */
+.doc-footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+    z-index: 2;
+    min-height: 80px;
+}
+
+.signatures-container {
+    display: flex;
+    gap: 30px;
+    flex-grow: 1;
+    justify-content: flex-start;
+}
+
+.sig-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+}
+
+.sig-line {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #1a1510;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 4px;
+    position: relative;
+}
+
+.sig-name {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.sig-title {
+    font-size: 9px;
+    color: #5c4e40;
+    text-align: center;
+}
+
+/* Renderizados de firmas */
+.sig-font-render {
+    font-family: var(--font-handwritten);
+    font-size: 26px;
+    color: #101c38; /* Tinta azulada */
+    line-height: 1;
+    margin-bottom: -4px;
+}
+
+.sig-img-render {
+    max-height: 45px;
+    max-width: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+/* Marca de Agua de Fondo */
+.watermark-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background-image: url('assets/sheriff_seal.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Sello de Lacre */
+.wax-seal-container {
+    position: absolute;
+    right: 0;
+    bottom: -15px;
+    width: 85px;
+    height: 85px;
+    pointer-events: none;
+}
+
+.wax-seal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* ==========================================
+   MODAL DE FIRMA
+   ========================================== */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--bg-card);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 30px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+
+.modal-title {
+    font-family: var(--font-serif);
+    color: var(--accent);
+    font-size: 18px;
+    text-align: center;
+}
+
+.modal-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.canvas-wrapper {
+    width: 100%;
+    height: 150px;
+    background-color: #fcf9f2;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.canvas-wrapper canvas {
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ==========================================
+   MEDIAS IMPRESIÓN (PDF)
+   ========================================== */
+@media print {
+    body, html {
+        background-color: #fff !important;
+        background-image: none !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    .control-panel,
+    .preview-header-controls,
+    .modal-container {
+        display: none !important;
+    }
+    
+    .preview-panel {
+        background: none !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    .report-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+    }
+    
+    .report-paper {
+        transform: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
