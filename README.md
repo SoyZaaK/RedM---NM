@@ -1,5 +1,7 @@
 # 📜 Normativas Maker - RedM Roleplay (1885)
 
+> 🌐 **Web de prueba / Demo en vivo:** [soyzaak.github.io/RedM---NM](https://soyzaak.github.io/RedM---NM/)
+
 **Normativas Maker** es una herramienta web interactiva diseñada específicamente para servidores de **RedM Roleplay (Red Dead Redemption 2)**. Permite a los administradores, sheriffs, alcaldes y jueces crear, maquetar y exportar leyes, ordenanzas municipales, reglamentos locales y decretos de la época (**1885**) de manera sencilla y con un acabado estético premium de pergamino antiguo.
 
 La aplicación cuenta con previsualización en tiempo real con zoom adaptable, un panel interactivo para dibujar firmas a mano y conexión directa con Discord a través de Webhooks para notificar y publicar los documentos de forma inmediata en los canales del servidor.
