@@ -43,6 +43,10 @@
                             <option value="conducta">Reglamento Local (Saloons/Negocios)</option>
                         </select>
                     </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="input-is-decree" name="isDecree">
+                        <label for="input-is-decree">¿Es un Decreto? (Muestra "DECRETA:")</label>
+                    </div>
                 </section>
 
                 <!-- 2. CABECERA DEL DOCUMENTO -->
@@ -64,6 +68,10 @@
                         <div class="form-group">
                             <label for="input-doc-num">N.º Registro / Decreto</label>
                             <input type="text" id="input-doc-num" name="docNum" value="DEC-1885-001">
+                            <div class="checkbox-group" style="margin-top: 4px;">
+                                <input type="checkbox" id="input-show-doc-num" name="showDocNum">
+                                <label for="input-show-doc-num">Mostrar en documento</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group-row">
@@ -118,6 +126,7 @@
                             <option value="none">Ninguno</option>
                             <option value="sheriff" selected>Estrella de Sheriff (Tinta Negra)</option>
                             <option value="state">Sello de Estado (Tinta Azul)</option>
+                            <option value="silverpeak">Sello de Silverpeak (Tinta Verde)</option>
                             <option value="wax">Sello de Lacre (Cera Roja)</option>
                         </select>
                     </div>
@@ -193,7 +202,7 @@
                                     <span class="meta-label">Fecha:</span>
                                     <span id="prev-date" class="meta-val">15 de Octubre de 1885</span>
                                 </div>
-                                <div class="meta-item">
+                                <div class="meta-item" id="prev-doc-num-container">
                                     <span class="meta-label">Expediente:</span>
                                     <span id="prev-doc-num" class="meta-val">DEC-1885-001</span>
                                 </div>
@@ -207,6 +216,9 @@
                                 </p>
                                 
                                 <div class="content-divider"></div>
+
+                                <!-- Fórmula Decreto -->
+                                <div id="prev-decree-header" class="decree-header" style="display: none;">DECRETA:</div>
 
                                 <!-- Artículos / Lista de Leyes -->
                                 <ol id="prev-articles" class="doc-articles-list">

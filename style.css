@@ -202,6 +202,34 @@ body {
     box-shadow: 0 0 0 3px rgba(201, 154, 78, 0.15);
 }
 
+/* Selector de Checkbox Premium */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 6px;
+    padding: 2px 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-light);
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
 /* Discord Webhook Wrapper */
 .webhook-input-wrapper {
     display: flex;
@@ -700,6 +728,33 @@ body {
 .content-divider {
     border-bottom: 1px dashed rgba(56, 44, 34, 0.2);
     margin: 4px 0;
+}
+
+/* Fórmula de Decreto ("DECRETA:") */
+.decree-header {
+    text-align: center;
+    font-weight: bold;
+    margin: 12px 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.report-paper.style-decreto .decree-header {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: #8c201a;
+}
+
+.report-paper.style-ordenanza .decree-header {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: #2b231c;
+}
+
+.report-paper.style-conducta .decree-header {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: #5c3515;
 }
 
 /* Lista de Artículos */

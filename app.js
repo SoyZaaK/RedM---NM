@@ -38,7 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
             { name: 'Wesley Grant', title: 'Sheriff Principal', method: 'font', data: null },
             { name: 'Arthur Doe', title: 'Juez de Paz', method: 'font', data: null }
         ],
-        officialSeal: 'sheriff'
+        officialSeal: 'sheriff',
+        isDecree: true,
+        showDocNum: true
     };
 
     let state = {};
@@ -75,9 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevClosing = document.getElementById('prev-closing');
     const prevSignaturesLayout = document.getElementById('prev-signatures-layout');
     const sealHeaderImg = document.getElementById('seal-header-img');
+    const headerSealPlaceholder = document.getElementById('header-seal-placeholder');
     const waxSealOverlay = document.getElementById('wax-seal-overlay');
     const paperDocument = document.getElementById('paper-document');
-
+    const inputIsDecree = document.getElementById('input-is-decree');
+    const prevDecreeHeader = document.getElementById('prev-decree-header');
+    const prevDocNumContainer = document.getElementById('prev-doc-num-container');
+    const inputShowDocNum = document.getElementById('input-show-doc-num');
     // Modal Canvas Firmas
     const sigModal = document.getElementById('signature-modal');
     const sigCanvas = document.getElementById('signature-pad-canvas');
@@ -96,6 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedDraft) {
             try {
                 state = JSON.parse(savedDraft);
+                if (state.isDecree === undefined) {
+                    state.isDecree = defaultState.isDecree;
+                }
+                if (state.showDocNum === undefined) {
+                    state.showDocNum = defaultState.showDocNum;
+                }
             } catch (e) {
                 state = JSON.parse(JSON.stringify(defaultState));
             }
@@ -233,12 +245,22 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('input-preamble').value = state.preamble;
         document.getElementById('input-closing').value = state.closing;
         document.getElementById('select-seal').value = state.officialSeal;
+        if (inputIsDecree) {
+            inputIsDecree.checked = !!state.isDecree;
+        }
+        if (inputShowDocNum) {
+            inputShowDocNum.checked = !!state.showDocNum;
+        }
     }
 
     function handleFormInput(e) {
         const target = e.target;
         if (target.name && target.name !== 'articles') {
-            state[target.name] = target.value;
+            if (target.type === 'checkbox') {
+                state[target.name] = target.checked;
+            } else {
+                state[target.name] = target.value;
+            }
             saveDraft();
             updatePreview();
         }
@@ -545,6 +567,24 @@ document.addEventListener('DOMContentLoaded', () => {
             prevSignaturesLayout.appendChild(block);
         });
 
+        // Sincronizar fórmula de decreto ("DECRETA:")
+        if (prevDecreeHeader) {
+            if (state.isDecree) {
+                prevDecreeHeader.style.display = 'block';
+            } else {
+                prevDecreeHeader.style.display = 'none';
+            }
+        }
+
+        // Mostrar / ocultar Expediente en el documento
+        if (prevDocNumContainer) {
+            if (state.showDocNum) {
+                prevDocNumContainer.style.display = 'block';
+            } else {
+                prevDocNumContainer.style.display = 'none';
+            }
+        }
+
         // Configurar sellos oficiales
         const seal = state.officialSeal;
         
@@ -552,11 +592,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (seal === 'sheriff') {
             sealHeaderImg.src = 'assets/sheriff_seal.png';
             sealHeaderImg.style.display = 'block';
+            if (headerSealPlaceholder) headerSealPlaceholder.style.display = 'flex';
         } else if (seal === 'state') {
             sealHeaderImg.src = 'assets/state_seal.png';
             sealHeaderImg.style.display = 'block';
+            if (headerSealPlaceholder) headerSealPlaceholder.style.display = 'flex';
+        } else if (seal === 'silverpeak') {
+            sealHeaderImg.src = 'assets/silverpeak.png';
+            sealHeaderImg.style.display = 'block';
+            if (headerSealPlaceholder) headerSealPlaceholder.style.display = 'flex';
         } else {
             sealHeaderImg.style.display = 'none';
+            if (headerSealPlaceholder) headerSealPlaceholder.style.display = 'none';
         }
 
         // Marca de agua del fondo
@@ -567,6 +614,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 watermark.style.display = 'block';
             } else if (seal === 'state') {
                 watermark.style.backgroundImage = "url('assets/state_seal.png')";
+                watermark.style.display = 'block';
+            } else if (seal === 'silverpeak') {
+                watermark.style.backgroundImage = "url('assets/silverpeak.png')";
                 watermark.style.display = 'block';
             } else {
                 watermark.style.display = 'none';
@@ -611,9 +661,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // COPIAR TEXTO FORMATEADO (MARKDOWN)
     // ==========================================
     function generatePlaintextMarkdown() {
-        const titleLine = `📜 **${state.title}** 📜\n*${state.subtitle}*\n*Jurisdicción: ${state.location}* | *Fecha: ${state.date}* | *Exp: ${state.docNum}*\n\n`;
+        const docNumPart = state.showDocNum ? ` | *Exp: ${state.docNum}*` : '';
+        const titleLine = `📜 **${state.title}** 📜\n*${state.subtitle}*\n*Jurisdicción: ${state.location}* | *Fecha: ${state.date}*${docNumPart}\n\n`;
         const emitter = `**EMITIDO POR:** \`${state.issuer}\`\n\n`;
         const intro = `*${state.preamble}*\n\n`;
+        
+        const decretaText = state.isDecree ? `***DECRETA:***\n\n` : '';
         
         let list = '';
         state.articles.filter(x => x.trim()).forEach((art, i) => {
@@ -627,7 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sigs += `✍️ *${sig.name}* - **${sig.title}**\n`;
         });
 
-        return `***\n${titleLine}${emitter}${intro}${list}${close}${sigs}***`;
+        return `***\n${titleLine}${emitter}${intro}${decretaText}${list}${close}${sigs}***`;
     }
 
     // ==========================================
@@ -687,13 +740,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (actionType === 'png') actionLabel = 'Descarga de Imagen (PNG)';
         if (actionType === 'copy') actionLabel = 'Copia de texto (Markdown)';
 
-        const articlesText = state.articles.filter(x => x.trim()).map((art, i) => `**Art. ${i+1}º:** ${art}`).join('\n') || 'Ninguno especificado.';
+        let articlesText = state.articles.filter(x => x.trim()).map((art, i) => `**Art. ${i+1}º:** ${art}`).join('\n') || 'Ninguno especificado.';
+        if (state.isDecree) {
+            articlesText = `**DECRETA:**\n\n` + articlesText;
+        }
         const signaturesText = state.signatures.map(sig => `• **${sig.name}** (${sig.title})`).join('\n') || 'Sin firmantes.';
 
+        const docNumPart = state.showDocNum ? `\n**Expediente:** ${state.docNum}` : '';
         const payload = {
             embeds: [{
                 title: `📜 NUEVA NORMATIVA PUBLICADA: ${state.title}`,
-                description: `_${state.subtitle}_\n\n**Emitido por:** ${state.issuer}\n**Expediente:** ${state.docNum}\n**Lugar:** ${state.location}`,
+                description: `_${state.subtitle}_\n\n**Emitido por:** ${state.issuer}${docNumPart}\n**Lugar:** ${state.location}`,
                 color: 13212238, // Oro oscuro
                 fields: [
                     { name: '📝 Preámbulo', value: state.preamble ? state.preamble.substring(0, 1000) : 'Sin preámbulo.' },
